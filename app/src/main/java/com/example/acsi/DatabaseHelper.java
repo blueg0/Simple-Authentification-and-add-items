@@ -20,14 +20,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase MyDatabase) {
         MyDatabase.execSQL("create Table allusers(email Text primary key, password Text )");
+        MyDatabase.execSQL("create Table maladies(name Text primary key, symptomes Text )");
+
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase MyDatabase, int i, int i1) {
-        MyDatabase.execSQL("drop Table if exists allusers");
+       MyDatabase.execSQL("drop Table if exists allusers");
+       MyDatabase.execSQL("drop Table if exists maladies");
 
     }
+    public Cursor getdata(){
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery("Select * from maladies",null);
+            return cursor;
+
+        }
+
+    public Boolean insertMaladies(String name, String symptomes) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("symptomes", symptomes);
+        long result = db.insert("maladies", null, contentValues);
+
+        return result != -1;
+    }
+
+
+
 
     public Boolean insertData(String email, String password) {
 
@@ -43,7 +66,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-
 
     public boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
@@ -68,5 +90,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
 
 }

@@ -1,11 +1,11 @@
 package com.example.acsi;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.acsi.databinding.ActivitySignupBinding;
 
@@ -40,10 +40,10 @@ public class Signup extends AppCompatActivity {
 
 
                         if (password.equals(confirmPassword)) {
-                            Boolean checkUserEmail = databaseHelper.checkEmail(email);
-                            if (checkUserEmail == false) {
+                            boolean checkUserEmail = databaseHelper.checkEmail(email);
+                            if (!checkUserEmail) {
                                 Boolean insert = databaseHelper.insertData(email, password);
-                                if (insert == true) {
+                                if (insert) {
                                     Toast.makeText(Signup.this, "SignUp successfully", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
